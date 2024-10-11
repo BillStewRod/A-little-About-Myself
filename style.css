@@ -152,9 +152,9 @@ header > h2 {
     z-index: 2;
     pointer-events: none;
     overflow: hidden;
-
-    line-height: clamp(0px 20vw, 16rem);
-    font-size: clamp(0px, 20vw, 16rem);
+    /* Adjusted font-size and line-height */
+    line-height: clamp(0px 10vw, 16rem);
+    font-size: clamp(0px, 10vw, 16rem);
 }
 
 header > h2 > span {
@@ -385,7 +385,7 @@ header.active {
     color: #B3AA91;
 }
 
-/* TO OUR STUDIO LINK */
+/* TO OUR CASA LINK */
 .arrowDown {
     position: absolute;
     bottom: 5rem;
@@ -402,8 +402,8 @@ header.active {
 }
 
 
-/* STUDIO SECTION */
-.studio-section {
+/* CASA SECTION */
+.CASA-section {
     width: 100%;
     min-height: 100vh;
     background: #000;
@@ -455,7 +455,7 @@ header.active {
 }
 
 
-/* Studio grid view */
+/* CASA grid view */
 .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -563,6 +563,9 @@ header.active {
 .contact .socials p, .contacts p {
     text-transform: uppercase;
     font-weight: bold;
+    text-align: center;
+    margin: 10px 0;
+    padding: 10px;
 }
 .contact a {
     color: white;
@@ -580,7 +583,7 @@ header.active {
 }
 
 @media screen and (max-width: 1220px) {
-    .studio-section .grid-el {
+    .CASA-section .grid-el {
         width: 100%;
     }
 }
@@ -591,21 +594,21 @@ header.active {
         filter: brightness(.7);
     }
 
-    .studio-section .marquee-content {
+    .CASA-section .marquee-content {
         white-space: nowrap;
     }
-    .studio-section .marquee-content span:last-of-type,
-    .studio-section .marquee-content img:last-of-type {
+    .CASA-section .marquee-content span:last-of-type,
+    .CASA-section .marquee-content img:last-of-type {
         display: none;
     }
-    .studio-section .grid {
+    .CASA-section .grid {
         padding: 0 10px;
     }
 
-    .studio-section .grid-el {
+    .CASA-section .grid-el {
         width: 100%;
     }
-    .studio-section .grid {
+    .CASA-section .grid {
         grid-template-columns: 1fr;
         height: unset !important;
     }
@@ -618,10 +621,10 @@ header.active {
     .header-wrp .socials, .header-wrp .arrowDown {
         left: 2rem;
     }
-    .studio-section .marquee-content {
+    .CASA-section .marquee-content {
         padding: 0 2%;
     }
-    .studio-section .grid-el .title {
+    .CASA-section .grid-el .title {
         font-size: 1.5rem;
     }
     .contact-grid .row > h2 {
@@ -630,8 +633,8 @@ header.active {
 }
 
 @media screen and (max-width: 400px) {
-    .studio-section .marquee-content span:not(:first-of-type),
-    .studio-section .marquee-content img:not(:first-of-type) {
+    .CASA-section .marquee-content span:not(:first-of-type),
+    .CASA-section .marquee-content img:not(:first-of-type) {
         display: none;
     }
 }
