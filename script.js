@@ -1,4 +1,3 @@
-
 gsap.registerPlugin(CustomEase);
 gsap.registerPlugin(ScrollTrigger);
 
@@ -8,7 +7,6 @@ gsap.from("nav", {y: "-100%", ease: "power3.out", duration: 1.3}, 1.5);
 gsap.from(".controls", {x: "20px", opacity: 0, duration: 1}, 1.3);
 gsap.from(".arrows", {opacity: 0, duration: 1}, 1.3);
 gsap.from(".header-wrp .socials, .header-wrp .arrowDown", {x: "-20px", opacity: 0, duration: 1}, 1.3);
-
 
 
 /* cursor logic */
@@ -65,10 +63,7 @@ var tli = gsap.timeline();
 
 function selectImage(img) {
     
-    // do not interrupt animations
-    if (tli.isActive()) {
-        return;
-    }
+    if (tli.isActive()) return;
 
     // Close image if open
     if (imageView) {
@@ -76,45 +71,74 @@ function selectImage(img) {
         return;
     }
 
-    // reset all images to initial state
+    // Save the current image element
     currentOpenImage = img;
 
     // Change cursor of image wrapper (cross cursor for close)
     img.target.parentNode.classList.add("crossCursor");
 
-    // Clean up previous image click timeline for new image
+    // Create a new timeline for the image zoom effect
     tli = gsap.timeline();
 
-    // Darken all images except the selected one to open
-    // (this was previously without '".slide" + slide')
+    // Darken all other images except the selected one
     let imgs = document.querySelectorAll(".slide" + slide + " .img");
-
     imgs.forEach((f) => {
-        if (f == img.target.parentNode) return;
+        if (f === img.target.parentNode) return;
         tli.to(f, {opacity: 0}, 0);
     });
 
-    // set image open state to true
     imageView = true;
 
-    // hide the slide headlines
+    // Hide the slide headlines
     tli.to(".slide" + slide + " h2", {opacity: 0}, 0);
 
-    // hide animated background
+    // Hide the background
     tli.to(".bg", {opacity: 0}, .6);
 
-    // if not the centered image (i1), transform to center
-    if (!img.target.parentNode.classList.contains("i1"))
+    // If the image isn't centered, center it
+    if (!img.target.parentNode.classList.contains("i1")) {
         tli.to(img.target.parentNode, {x: "-50%", y: "-50%"}, 0);
+    }
 
-    // resize image to full screen
-    tli.to(img.target.parentNode, {width: "80vw",
-        height: "80vh", opacity: 1, ease: "power3.out", 
-        duration: 1}, .5);
+    // Resize image to full screen
+    tli.to(img.target.parentNode, {
+        width: "80vw",
+        height: "80vh",
+        opacity: 1,
+        ease: "power3.out",
+        duration: 1
+    }, .5);
 
-    // hide cursor (the following cursor)
+    // Hide the custom cursor
     gsap.to(".c", {opacity: 0});
 
+    // Add a clickable overlay to redirect to the website
+    const link = document.createElement('a');
+    link.href = img.target.alt; // Use the 'alt' attribute to get the URL
+    link.target = '_blank'; // Open in new tab
+    link.style.position = 'absolute';
+    link.style.top = 0;
+    link.style.left = 0;
+    link.style.width = '100%';
+    link.style.height = '100%';
+    link.style.zIndex = 10; // Ensure it stays on top of the image
+
+    img.target.parentNode.appendChild(link);
+
+    // Add "X" button to close the image preview
+    const closeButton = document.createElement('div');
+    closeButton.innerHTML = '&times;';
+    closeButton.style.position = 'absolute';
+    closeButton.style.top = '10px';
+    closeButton.style.right = '10px';
+    closeButton.style.fontSize = '2rem';
+    closeButton.style.color = 'white';
+    closeButton.style.cursor = 'pointer';
+    closeButton.style.zIndex = 11; // On top of the link
+    img.target.parentNode.appendChild(closeButton);
+
+    // Add event listener to close image on clicking the "X"
+    closeButton.addEventListener('click', () => closeImage(img));
 }
 
 function closeImage(img) {
@@ -127,12 +151,17 @@ function closeImage(img) {
     // hide the cross cursor
     img.target.parentNode.classList.remove("crossCursor");
 
-    // unhide follow cursor
+    // Remove the link and close button elements
+    const link = img.target.parentNode.querySelector('a');
+    if (link) link.remove();
+
+    const closeButton = img.target.parentNode.querySelector('div');
+    if (closeButton) closeButton.remove();
+
+    // Unhide follow cursor
     gsap.to(".c", {opacity: 1});
 }
-
-
-/** SLIDE ANIMATION **/
+//** SLIDE ANIMATION **/
 
 // Set timelines for each slide with the fade in animation for each slide element
 var tl1 = gsap.timeline({paused: false});
